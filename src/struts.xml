@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts_devMode" value="true"></constant>
+	<constant name="struts" value=""></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<constant name="struts.custom.i18n.resources" value="LoginAction"></constant>
+	
+	<package name="hello" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="hello" class="com.struts2.interceptor.TestInterceptor"></interceptor>
+		</interceptors>
+		<default-action-ref name="index"></default-action-ref>
+		<global-results>
+			<result name="namepage">/index.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="hello" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		<action name="hello*" class="com.struts2.action.HelloActoin" method="{1}">
+			<result name="hello">/hello.jsp</result>
+			<result name="success" type="plainText">login.jsp</result>
+		</action>
+		<action name="*-*" class="com.struts2.action.{1}Action" method="{2}">
+			<interceptor-ref name="hello"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="token"></interceptor-ref>
+			<result name="{2}">/{2}.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="hello">/index.jsp</result>
+			<exception-mapping result="error" exception="java.lang.NullPointerException"></exception-mapping>
+		</action>
+		<action name="web" class="com.struts2.web.WebActoin">
+			<result name="success">/index.jsp</result>
+		</action>
+	</package>
+</struts>    
